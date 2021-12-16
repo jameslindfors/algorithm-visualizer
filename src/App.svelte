@@ -1,24 +1,32 @@
 <script>
     import {onMount} from 'svelte';
-    import init, { add } from 'algos-ds-wasm';
+    import init, { bubble_sort } from 'algos-ds-wasm';
 
     let canvas;
+    let arr = [];
+    let sorted;
 
     // WASM Magic
-const maths = async () => {
-  await init();
-
-  console.log('Addition in rust:', add(1, 2));
+const bubbleSort = async () => {
+    await init();
+    sorted = bubble_sort(arr);
 };
 
-    onMount(() => {
-        maths();
+const gen_rand_arr = () => {
+    for (let i = 0; i < 20; i++) {
+        arr[i] = Math.floor(Math.random() * 100);
+    }
+    sorted = undefined;
+}
 
+    onMount(() => {
+        gen_rand_arr();
         const ctx = canvas.getContext('2d');
         ctx.beginPath();
         ctx.arc(145, 75, 40, 0, 2 * Math.PI);
+        ctx.fillStyle = "blue";
+        ctx.fill();
         ctx.stroke();
-
     });
 </script>
 <svelte:head>
@@ -30,12 +38,22 @@ const maths = async () => {
         <h2 class="font-bold text-3xl mx-4 py-4">Sorting Algorithms</h2>   
     </header>
     <div class="controls container mx-4 px-1 flex flex-col w-44">
-        <button class="genNewArr bg-transparent hover:bg-blue-700 text-blue-500 font-semibold hover:text-white py-1.5 px-4 my-1 border border-blue-500 hover:border-transparent rounded">New Array</button>
-        <button class="mergeSort bg-transparent hover:bg-blue-700 text-blue-500 font-semibold hover:text-white py-1.5 px-4 my-1 border border-blue-500 hover:border-transparent rounded">Merge Sort</button>
+        <button class="genNewArr bg-transparent hover:bg-blue-700 text-blue-500 font-semibold hover:text-white py-1.5 px-4 my-1 border border-blue-500 hover:border-transparent rounded" on:click={() => gen_rand_arr()}>New Array</button>
+        <button class="mergeSort bg-transparent hover:bg-blue-700 text-blue-500 font-semibold hover:text-white py-1.5 px-4 my-1 border border-blue-500 hover:border-transparent rounded" on:click={() => bubbleSort()}>Bubble Sort</button>
         <label for="speed" class="text-blue-500 font-bold">Set Animation Speed:</label>
         <input type="range" name="speed" id="speed" min="0" max="10" value="0" class="py-2 ">
     </div>
-    <canvas style="border: 1px solid black;" bind:this={canvas}>
+    <canvas style="border: 1px solid black;" class="mx-4 py-4" bind:this={canvas}>
+
     </canvas>
+
+    <div class="container mx-4">
+        <h3 class="text-2xl mx-2 py-4 text-fuchsia-400 font-semibold underline">Starting Array: </h3>
+        {arr}
+        {#if sorted}
+        <h3 class="text-2xl mx-2 py-4 text-purple-400 font-semibold underline">Sorted: </h3>
+        {sorted}
+        {/if}
+    </div>
 
 </div>

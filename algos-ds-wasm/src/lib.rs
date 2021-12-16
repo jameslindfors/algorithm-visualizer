@@ -1,8 +1,12 @@
 mod utils;
+mod sorting;
 
 use wasm_bindgen::prelude::*;
 
+// Utils
+
+// Sorting
 #[wasm_bindgen]
-pub fn add(a: i32, b: i32) -> i32 {
-    a + b
+pub fn bubble_sort(array: Vec<i32>) -> Vec<i32> {
+    sorting::bubble_sort(array)
 }
