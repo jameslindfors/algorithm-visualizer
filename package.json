@@ -2,9 +2,23 @@
   "scripts": {
     "start": "snowpack dev",
     "build": "snowpack build",
-    "test": "echo \"This template does not include a test runner by default.\" && exit 1"
+    "watch:css": "postcss public/tailwind.css -o public/index.css -w",
+    "build:css": "postcss public/tailwind.css -o public/index.css",
+    "build:wasm": "cd algos-ds-wasm && wasm-pack build --target web",
+    "test:wasm": "cd algos-ds-wasm && wasm-pack test --node"
   },
   "devDependencies": {
-    "snowpack": "^3.3.7"
+    "@snowpack/plugin-postcss": "^1.4.3",
+    "@snowpack/plugin-svelte": "^3.7.0",
+    "autoprefixer": "^10.4.0",
+    "postcss-cli": "^9.1.0",
+    "snowpack": "^3.3.7",
+    "tailwindcss": "^3.0.5"
+  },
+  "dependencies": {
+    "snowpack-plugin-wasm-pack": "^1.1.0",
+    "svelte": "^3.44.3",
+    "svelte-loader": "^3.1.2",
+    "svelte-preprocess": "^4.10.0"
   }
 }

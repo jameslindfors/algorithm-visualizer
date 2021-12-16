@@ -2,9 +2,21 @@
 export default {
   mount: {
     /* ... */
+    // directory name :'build directory'
+    public: "/",
+    src: "/dist",
   },
   plugins: [
     /* ... */
+    "@snowpack/plugin-svelte",
+    "@snowpack/plugin-postcss",
+
+    [
+      "snowpack-plugin-wasm-pack",
+      {
+        projectPath: "./algos-ds-wasm",
+      },
+    ],
   ],
   routes: [
     /* Enable an SPA Fallback in development: */
@@ -19,6 +31,7 @@ export default {
   },
   devOptions: {
     /* ... */
+    tailwindConfig: "/tailwind.config.js",
   },
   buildOptions: {
     /* ... */
