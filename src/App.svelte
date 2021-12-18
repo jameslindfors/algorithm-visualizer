@@ -1,6 +1,6 @@
 <script>
     import {onMount} from 'svelte';
-    import init, { bubble_sort } from 'algos-ds-wasm';
+    import init, { bubble_sort, canvas_image} from 'algos-ds-wasm';
 
     let canvas;
     let arr = [];
@@ -12,6 +12,11 @@ const bubbleSort = async () => {
     sorted = bubble_sort(arr);
 };
 
+const draw = async () => {
+    await init();
+    canvas_image();
+};
+
 const gen_rand_arr = () => {
     for (let i = 0; i < 20; i++) {
         arr[i] = Math.floor(Math.random() * 100);
@@ -21,12 +26,7 @@ const gen_rand_arr = () => {
 
     onMount(() => {
         gen_rand_arr();
-        const ctx = canvas.getContext('2d');
-        ctx.beginPath();
-        ctx.arc(145, 75, 40, 0, 2 * Math.PI);
-        ctx.fillStyle = "blue";
-        ctx.fill();
-        ctx.stroke();
+        draw();
     });
 </script>
 <svelte:head>
@@ -43,7 +43,7 @@ const gen_rand_arr = () => {
         <label for="speed" class="text-blue-500 font-bold">Set Animation Speed:</label>
         <input type="range" name="speed" id="speed" min="0" max="10" value="0" class="py-2 ">
     </div>
-    <canvas style="border: 1px solid black;" class="mx-4 py-4" bind:this={canvas}>
+    <canvas style="border: 1px solid black;" id="canvas" class="mx-4 py-4" bind:this={canvas}>
 
     </canvas>
 
