@@ -1,3 +1,7 @@
+use rand::Rng;
+use wasm_bindgen::prelude::*;
+
+#[wasm_bindgen]
 pub fn bubble_sort(array: Vec<i32>) -> Vec<i32> {
     let mut array = array;
     let mut swapped = true;
@@ -11,4 +15,16 @@ pub fn bubble_sort(array: Vec<i32>) -> Vec<i32> {
         }
     }
     array
+}
+
+
+// generate new array between 0 and user input
+#[wasm_bindgen]
+pub fn new_arr (size: i32) -> Vec<i32> {
+    let mut rng = rand::thread_rng();
+    let mut arr = Vec::new();
+    for _ in 0..size {
+        arr.push(rng.gen_range(0, size));
+    }
+    arr
 }

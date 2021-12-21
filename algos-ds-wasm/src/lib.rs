@@ -1,51 +1,15 @@
-mod utils;
+mod canvas;
 mod sorting;
+mod utils;
 
-use std::f64;
 use wasm_bindgen::prelude::*;
-use wasm_bindgen::JsCast;
 
-// Utils
-#[wasm_bindgen]
-pub fn canvas_image() {
-    let document = web_sys::window().unwrap().document().unwrap();
-    let canvas = document.get_element_by_id("canvas").unwrap();
-    let canvas: web_sys::HtmlCanvasElement = canvas
-        .dyn_into::<web_sys::HtmlCanvasElement>()
-        .map_err(|_| ())
-        .unwrap();
+#[wasm_bindgen(start)]
+pub fn start() {
+    canvas::draw_circle(40.0);
+    canvas::set_canvas_size(1000.0, 350.0);
+    canvas::run_animation().unwrap();
+    sorting::new_arr(5);
+    utils::log("Start Executed");
 
-    let context = canvas
-        .get_context("2d")
-        .unwrap()
-        .unwrap()
-        .dyn_into::<web_sys::CanvasRenderingContext2d>()
-        .unwrap();
-
-    context.begin_path();
-
-    // Draw outer circle
-    context
-        .arc(75.0, 75.0, 50.0, 0.0, f64::consts::PI * 2.0)
-        .unwrap();
-    
-    // Draw the mouth
-    context.move_to(110.0, 75.0);
-    context.arc(75.0, 75.0, 35.0, 0.0, f64::consts::PI).unwrap();
-
-    // Draw the left eye
-    context.move_to(65.0, 65.0);
-    context.arc(60.0, 65.0, 5.0, 0.0, f64::consts::PI * 2.0).unwrap();
-
-    // Draw the right eye
-    context.move_to(95.0, 65.0);
-    context.arc(90.0, 65.0, 5.0, 0.0, f64::consts::PI * 2.0).unwrap();
-
-    context.stroke();
-}
-
-// Sorting
-#[wasm_bindgen]
-pub fn bubble_sort(array: Vec<i32>) -> Vec<i32> {
-    sorting::bubble_sort(array)
 }
