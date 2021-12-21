@@ -49,6 +49,9 @@ extern "C" {
     pub fn log_u32(a: u32);
 
     #[wasm_bindgen(js_namespace = console, js_name = log)]
+    pub fn log_i32(a: i32);
+
+    #[wasm_bindgen(js_namespace = console, js_name = log)]
     pub fn log_many(a: &str, b: &str);
 
 }

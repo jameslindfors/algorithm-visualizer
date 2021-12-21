@@ -7,7 +7,58 @@ use std::rc::Rc;
 use rand::Rng;
 use wasm_bindgen::prelude::*;
 
+// Create Bar struct
+pub struct Bar {
+    x: f64,
+    y: f64,
+    width: f64,
+    height: f64,
+    color: String,
+}
+
+impl Bar {
+    fn new(x: f64, y: f64, width: u32, height: u32, color: String) -> Bar {
+        Bar {
+            x: x,
+            y: y,
+            width: width as f64,
+            height: height as f64,
+            color: color,
+        }
+    }
+    
+    fn draw(&self) {
+        utils::ctx().begin_path();
+        utils::ctx().set_fill_style(&JsValue::from_str(&self.color));
+        utils::ctx().fill_rect(self.x, self.y, self.width, self.height);
+        utils::ctx().fill();
+    }
+}
+
 // Object drawing
+pub fn create_bar_arr(from: Vec<i32>, to: &mut Vec<Bar>) {
+    for val in from.iter() {
+        let x = *val as f64 * 10.0;
+        let y = get_canvas_size().1 - *val as f64;
+        let width = 10;
+        let height = *val * 50;
+        let color = "black".to_string();
+        // number * 10,
+        // canvas.height - numbers[number],
+        // 10,
+        // numbers[number],
+        // "black"
+        to.push(Bar::new(x, y, width, height as u32, color));
+    }
+}
+
+pub fn draw_bars (bars: Vec<Bar>) {
+    // loop from 1 to length of bars
+    for i in 0..bars.len() {
+        bars[i].draw();
+    }
+}
+
 #[wasm_bindgen]
 pub fn draw_circle(radius: f64) {
     let color = gen_rand_hex();
@@ -22,7 +73,7 @@ pub fn draw_circle(radius: f64) {
 
 // Animation Loop
 #[wasm_bindgen]
-pub fn run_animation() -> Result<(), JsValue> {
+pub fn run_animation(arr: Vec<i32>) -> Result<(), JsValue> {
     let f = Rc::new(RefCell::new(None));
     let g = f.clone();
 
@@ -36,8 +87,7 @@ pub fn run_animation() -> Result<(), JsValue> {
             return;
         }
         i += 1;
-        // Line that renders new circle each iteration 
-        draw_circle(i as f64); 
+
     let text = format!("requestAnimationFrame has been called {} times", i);
 
     // Schedule next frame

@@ -6,10 +6,14 @@ use wasm_bindgen::prelude::*;
 
 #[wasm_bindgen(start)]
 pub fn start() {
-    canvas::draw_circle(40.0);
+    let mut arr: Vec<i32>= Vec::new();
+    let mut bars: Vec<canvas::Bar> = Vec::new();
+
     canvas::set_canvas_size(1000.0, 350.0);
-    canvas::run_animation().unwrap();
-    sorting::new_arr(5);
+    sorting::new_arr(1000, &mut arr);
+    canvas::create_bar_arr(arr, &mut bars);
+    canvas::draw_bars(bars);
+
     utils::log("Start Executed");
 
 }

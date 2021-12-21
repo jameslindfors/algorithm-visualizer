@@ -1,24 +1,28 @@
-# New Project
+# Algorithm Visualizer
 
-> ✨ Bootstrapped with Create Snowpack App (CSA).
+## _Visualize Common Sorting Algorithms_
 
-## Available Scripts
+![GitHub language count](https://img.shields.io/github/languages/count/jameslindfors/algorithm-visualizer?style=for-the-badge) ![GitHub top language](https://img.shields.io/github/languages/top/jameslindfors/algorithm-visualizer?style=for-the-badge) ![Lines of code](https://img.shields.io/tokei/lines/github/jameslindfors/algorithm-visualizer?style=for-the-badge)
 
-### npm start
+Algorithm Visualizer is a fast simple way to view and interact with different sorting algorthms to gain a deeper understanding.
 
-Runs the app in the development mode.
-Open http://localhost:8080 to view it in the browser.
+## Features
 
-The page will reload if you make edits.
-You will also see any lint errors in the console.
+- Select algorithm, set speed, and watch it run.
+- Html Canvas renders an animation in real time as the algorithm runs.
+- Generate a new array and try a different one.
 
-### npm run build
+## Tech
 
-Builds a static copy of your site to the `build/` folder.
-Your app is ready to be deployed!
+- [Svelete] - Frontend framework for creating web applications.
+- [Tailwind] - CSS framework for rapid devlopment.
+- [Wasm-Pack & Rust] - Webassembly with Rust to handle algorithm and animation logic.
+- [Snowpack] - Light-weight bundler with built in support for wasm-pack and post-css.
 
-**For the best production performance:** Add a build bundler plugin like [@snowpack/plugin-webpack](https://github.com/snowpackjs/snowpack/tree/main/plugins/plugin-webpack) or [snowpack-plugin-rollup-bundle](https://github.com/ParamagicDev/snowpack-plugin-rollup-bundle) to your `snowpack.config.mjs` config file.
+## Motivation
 
-### Q: What about Eject?
+When creating this project I hoped to gain a deeper understanding of different algorithms and best implementations. In the process I was able to learn Svelte, Rust, WebAssembly, and further my Html Canvas experience.
 
-No eject needed! Snowpack guarantees zero lock-in, and CSA strives for the same.
+## License
+
+MIT

@@ -1,6 +1,6 @@
 <script>
     import {onMount} from 'svelte';
-    import init, {new_arr, bubble_sort} from 'algos-ds-wasm';
+    import init, {start} from 'algos-ds-wasm';
 
     let arr = undefined;
     let sorted = undefined;
@@ -9,8 +9,7 @@
 
     onMount (() => {
         wasm_module.then(async () => {
-            arr = new_arr(50);
-            sorted= bubble_sort(arr)
+            start();
         });
     });
 
