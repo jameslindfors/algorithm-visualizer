@@ -2,7 +2,7 @@ use rand::Rng;
 use wasm_bindgen::prelude::*;
 
 #[wasm_bindgen]
-pub fn bubble_sort(array: Vec<i32>) -> Vec<i32> {
+pub fn _bubble_sort(array: Vec<i32>) -> Vec<i32> {
     let mut array = array;
     let mut swapped = true;
     while swapped {

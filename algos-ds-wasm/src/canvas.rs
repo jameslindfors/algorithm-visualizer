@@ -26,10 +26,10 @@ impl Bar {
         }
     }  
     fn draw(&self) {
-        utils::ctx().begin_path();
-        utils::ctx().set_fill_style(&JsValue::from_str(&self.color));
-        utils::ctx().fill_rect(self.x, self.y, self.width, self.height);
-        utils::ctx().fill();
+        utils::_ctx().begin_path();
+        utils::_ctx().set_fill_style(&JsValue::from_str(&self.color));
+        utils::_ctx().fill_rect(self.x, self.y, self.width, self.height);
+        utils::_ctx().fill();
     }
 }
 
@@ -38,8 +38,8 @@ pub fn gen_bar_arr(arr: Vec<u32>) -> Vec<Bar> {
     let mut bars: Vec<Bar> = Vec::with_capacity(arr.len());
     let mut x = 0.0;
     let y = 0.0;
-    let width = utils::canvas().width() as f64 / arr.len() as f64;
-    let height = utils::canvas().height() as f64 / 100.0;
+    let width = utils::_canvas().width() as f64 / arr.len() as f64;
+    let height = utils::_canvas().height() as f64 / 100.0;
 
     for i in 0..arr.len() {
         bars.push(Bar::new(
@@ -91,7 +91,7 @@ pub fn _run_animation(_arr: Vec<u32>) -> Result<(), JsValue> {
 // Canvas Utils
 #[wasm_bindgen]
 pub fn _set_canvas_size(width: u32, height: u32) {
-    let canvas = utils::canvas();
+    let canvas = utils::_canvas();
     canvas.set_width(width as u32);
     canvas.set_height(height as u32);
 }

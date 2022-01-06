@@ -9,18 +9,18 @@ pub fn _request_animation_frame(f: &Closure<dyn FnMut()>) {
     _window().request_animation_frame(f.as_ref().unchecked_ref()).expect("should register `requestAnimationFrame` OK");
 }
 
-pub fn document() -> web_sys::Document {
+pub fn _document() -> web_sys::Document {
     _window()
         .document()
         .expect("should have a document on the window")
 } 
 
-pub fn body() -> web_sys::HtmlElement {
-    document().body().expect("document should have a body")
+pub fn _body() -> web_sys::HtmlElement {
+    _document().body().expect("document should have a body")
 }
 
-pub fn canvas() -> web_sys::HtmlCanvasElement{
-    let canvas = document().get_element_by_id("canvas").unwrap();
+pub fn _canvas() -> web_sys::HtmlCanvasElement{
+    let canvas = _document().get_element_by_id("canvas").unwrap();
     let canvas: web_sys::HtmlCanvasElement = canvas
         .dyn_into::<web_sys::HtmlCanvasElement>()
         .map_err(|_| ())
@@ -29,8 +29,8 @@ pub fn canvas() -> web_sys::HtmlCanvasElement{
     canvas
 }
 
-pub fn ctx () -> web_sys::CanvasRenderingContext2d {
-    let canvas = canvas();
+pub fn _ctx () -> web_sys::CanvasRenderingContext2d {
+    let canvas = _canvas();
     let ctx = canvas
         .get_context("2d")
         .unwrap()
