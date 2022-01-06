@@ -17,9 +17,10 @@ pub fn bubble_sort(array: Vec<i32>) -> Vec<i32> {
     array
 }
 
-pub fn new_arr (size: i32, arr: &mut Vec<i32>) {
-    let mut rng = rand::thread_rng();
+pub fn new_arr (size: u32) -> Vec<u32> {
+    let mut arr: Vec<u32> = Vec::with_capacity(size as usize);
     for _ in 0..size {
-        arr.push(rng.gen_range(0, size));
+        arr.push(rand::thread_rng().gen_range(0, 100));
     }
+    arr
 }

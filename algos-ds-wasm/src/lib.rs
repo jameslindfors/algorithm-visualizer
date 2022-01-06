@@ -5,15 +5,13 @@ mod utils;
 use wasm_bindgen::prelude::*;
 
 #[wasm_bindgen(start)]
-pub fn start() {
-    let mut arr: Vec<i32>= Vec::new();
-    let mut bars: Vec<canvas::Bar> = Vec::new();
+pub fn start() -> Result<(), JsValue> {
+    let arr: Vec<u32> = sorting::new_arr(50);
+    let bars_arr = canvas::gen_bar_arr(arr.clone());
+    canvas::draw_bars(bars_arr);
 
-    canvas::set_canvas_size(1000.0, 350.0);
-    sorting::new_arr(1000, &mut arr);
-    canvas::create_bar_arr(arr, &mut bars);
-    canvas::draw_bars(bars);
+    utils::log_vec(arr);
 
     utils::log("Start Executed");
-
+    Ok(())
 }

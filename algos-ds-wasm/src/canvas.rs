@@ -4,7 +4,6 @@ mod utils;
 use std::f64;
 use std::cell::RefCell;
 use std::rc::Rc;
-use rand::Rng;
 use wasm_bindgen::prelude::*;
 
 // Create Bar struct
@@ -17,16 +16,15 @@ pub struct Bar {
 }
 
 impl Bar {
-    fn new(x: f64, y: f64, width: u32, height: u32, color: String) -> Bar {
+    fn new(x: f64, y: f64, width: f64, height: f64, color: String) -> Bar {
         Bar {
             x: x,
             y: y,
-            width: width as f64,
-            height: height as f64,
+            width: width,
+            height: height,
             color: color,
         }
-    }
-    
+    }  
     fn draw(&self) {
         utils::ctx().begin_path();
         utils::ctx().set_fill_style(&JsValue::from_str(&self.color));
@@ -36,44 +34,35 @@ impl Bar {
 }
 
 // Object drawing
-pub fn create_bar_arr(from: Vec<i32>, to: &mut Vec<Bar>) {
-    for val in from.iter() {
-        let x = *val as f64 * 10.0;
-        let y = get_canvas_size().1 - *val as f64;
-        let width = 10;
-        let height = *val * 50;
-        let color = "black".to_string();
-        // number * 10,
-        // canvas.height - numbers[number],
-        // 10,
-        // numbers[number],
-        // "black"
-        to.push(Bar::new(x, y, width, height as u32, color));
+pub fn gen_bar_arr(arr: Vec<u32>) -> Vec<Bar> {
+    let mut bars: Vec<Bar> = Vec::with_capacity(arr.len());
+    let mut x = 0.0;
+    let y = 0.0;
+    let width = utils::canvas().width() as f64 / arr.len() as f64;
+    let height = utils::canvas().height() as f64 / 100.0;
+
+    for i in 0..arr.len() {
+        bars.push(Bar::new(
+            x,
+            y,
+            width,
+            arr[i] as f64 * height,
+            "black".to_string(),
+        ));
+        x += width;
     }
+    bars
 }
 
 pub fn draw_bars (bars: Vec<Bar>) {
-    // loop from 1 to length of bars
     for i in 0..bars.len() {
         bars[i].draw();
     }
 }
 
-#[wasm_bindgen]
-pub fn draw_circle(radius: f64) {
-    let color = gen_rand_hex();
-    let cords = gen_rand_cords();
-
-    utils::ctx().begin_path();
-    utils::ctx().arc(cords.0, cords.1, radius, 0.0, f64::consts::PI * 2.0)
-        .unwrap();
-    utils::ctx().set_fill_style(&JsValue::from_str(&color));
-    utils::ctx().fill();
-}
-
 // Animation Loop
 #[wasm_bindgen]
-pub fn run_animation(arr: Vec<i32>) -> Result<(), JsValue> {
+pub fn _run_animation(_arr: Vec<u32>) -> Result<(), JsValue> {
     let f = Rc::new(RefCell::new(None));
     let g = f.clone();
 
@@ -88,42 +77,21 @@ pub fn run_animation(arr: Vec<i32>) -> Result<(), JsValue> {
         }
         i += 1;
 
-    let text = format!("requestAnimationFrame has been called {} times", i);
+    let _text = format!("requestAnimationFrame has been called {} times", i);
+    // utils::log(&_text as &str);
 
     // Schedule next frame
-    utils::request_animation_frame(f.borrow().as_ref().unwrap());
+    utils::_request_animation_frame(f.borrow().as_ref().unwrap());
     }) as Box<dyn FnMut()>));
 
-    utils::request_animation_frame(g.borrow().as_ref().unwrap());
+    utils::_request_animation_frame(g.borrow().as_ref().unwrap());
     Ok(())
 }
 
 // Canvas Utils
 #[wasm_bindgen]
-pub fn set_canvas_size(width: f64, height: f64) {
+pub fn _set_canvas_size(width: u32, height: u32) {
     let canvas = utils::canvas();
     canvas.set_width(width as u32);
     canvas.set_height(height as u32);
-}
-pub fn get_canvas_size() -> (f64, f64) {
-    let canvas = utils::canvas();
-    let width = canvas.width() as f64;
-    let height = canvas.height() as f64;
-    // utils::log(&format!("canvas width: {}, height: {}", width, height));
-    (width, height)
-}
-
-fn gen_rand_hex()-> String{
-    let mut rng = rand::thread_rng();
-    let color = format!("#{:06x}", rng.gen::<u32>());
-    // utils::log(&format!("random color: {}", color));
-    color
-}
-
-fn gen_rand_cords() -> (f64, f64) {
-    let mut rng = rand::thread_rng();
-    let x = rng.gen_range(0.0, utils::canvas().width() as f64);
-    let y = rng.gen_range(0.0, utils::canvas().height() as f64);
-    // utils::log(&format!("x: {}, y: {}", x, y));
-    (x, y)
 }

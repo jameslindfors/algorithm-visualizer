@@ -1,16 +1,12 @@
 <script>
     import {onMount} from 'svelte';
-    import init, {start} from 'algos-ds-wasm';
+    import init from 'algos-ds-wasm';
 
     let arr = undefined;
     let sorted = undefined;
 
-    const wasm_module = init();
-
     onMount (() => {
-        wasm_module.then(async () => {
-            start();
-        });
+        init();
     });
 
 </script>
@@ -28,7 +24,7 @@
         <label for="speed" class="text-blue-500 font-bold">Set Animation Speed:</label>
         <input type="range" name="speed" id="speed" min="0" max="10" value="0" class="py-2 ">
     </div> -->
-    <canvas style="border: 0.5px solid white;" id="canvas" class="mx-4">
+    <canvas style="border: 0.5px solid black;" id="canvas" class="mx-4">
     </canvas>
 
     <div class="container mx-4">
